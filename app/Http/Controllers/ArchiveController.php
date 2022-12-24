@@ -76,9 +76,21 @@ class ArchiveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        if (!$request->restore) {
+            Product::where('slug', $slug)->update(['status' => 'show']);
+
+            session(['archive' => $request->session()->get('archive')-1]);
+
+            return redirect()->intended('/archive')->with([
+                'flash-type' => 'sweetalert',
+                'case' => 'default',
+                'position' => 'center',
+                'type' => 'success',
+                'message' => 'Restore Success!'
+            ]);
+        }
     }
 
     /**

@@ -23,6 +23,12 @@ class UserSeeder extends Seeder
                 'status' => 'active'
             ],
             [
+                'username' => 'wahyu123',
+                'password' => bcrypt('test123'),
+                'level' => 'administrator',
+                'status' => 'active'
+            ],
+            [
                 'username' => 'faiz123',
                 'password' => bcrypt('test123'),
                 'level' => 'cashier',

@@ -36,7 +36,7 @@
             <div class="col-12">
                 <div class="input-style-1">
                 <label id="username">Username</label>
-                <input type="text" class="form-control @error('username') is-invalid @enderror" placeholder="Type your username here" id="username" name="username" required value="{{ old('username') }}"/>
+                <input type="text" class="form-control @error('username') is-invalid @enderror" placeholder="Type your username here" id="username" name="username" required value="{{ old('username') }}" autocomplete="off"/>
                 @error('username')
                     <span class="text-danger"> {{ $message }} </span>
                 @enderror

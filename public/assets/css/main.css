@@ -2406,6 +2406,12 @@ h6,
     padding: 12px;
     width: 100%; }
 
+.recyle-archive {
+  display: block !important;
+  font-size: 14px !important;
+  margin-left: 0px !important;
+}
+
 /* ========== DEFAULT CSS ======== */
 /* ======= Margin Top ======= */
 .mt-5 {

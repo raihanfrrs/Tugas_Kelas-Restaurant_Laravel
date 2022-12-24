@@ -85,9 +85,44 @@ class RecycleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        dd($request);
+        if (isset($request->recycle)) {
+            Product::where('slug', $slug)->update(['status' => 'show']);
+
+            session(['recycle' => $request->session()->get('recycle')-1]);
+
+            return redirect()->intended('/recycle')->with([
+                'flash-type' => 'sweetalert',
+                'case' => 'default',
+                'position' => 'center',
+                'type' => 'success',
+                'message' => 'Restore Success!'
+            ]);
+        }
+
+        if (isset($request->archive)) {
+            Product::where('slug', $slug)->update(['status' => 'archive']);
+
+            session(['archive' => $request->session()->get('archive')+1, 'recycle' => $request->session()->get('recycle')-1]);
+
+            return redirect()->intended('/recycle')->with([
+                'flash-type' => 'sweetalert',
+                'case' => 'default',
+                'position' => 'center',
+                'type' => 'success',
+                'message' => 'Archive Success!'
+            ]);
+        }
+
+        return redirect()->intended('/recycle')->with([
+            'flash-type' => 'sweetalert',
+            'case' => 'default',
+            'position' => 'center',
+            'type' => 'success',
+            'message' => 'Process Failed!'
+        ]);
     }
 
     /**

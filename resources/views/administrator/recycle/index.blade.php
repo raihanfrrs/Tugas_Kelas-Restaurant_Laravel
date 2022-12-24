@@ -60,10 +60,19 @@
                     aria-labelledby="moreAction"
                 >
                     <li class="dropdown-item">
-                    <a href="#0" class="text-gray">Restore</a>
+                        <form action="recycle/{{ $item->slug }}" method="post">
+                            @csrf
+                            @method('put')
+                            <button name="product"></button>
+                            <button type="submit" name="restore" class="recyle-archive text-gray">Restore</button>
+                        </form>
                     </li>
                     <li class="dropdown-item">
-                    <a href="#0" class="text-gray">Archive</a>
+                        <form action="recycle/{{ $item->slug }}" method="post">
+                            @csrf
+                            @method('put')
+                            <button type="submit" name="archive" class="recyle-archive text-gray">Archive</button>
+                        </form>
                     </li>
                 </ul>
                 </div>
@@ -120,10 +129,18 @@
                     aria-labelledby="moreAction"
                 >
                     <li class="dropdown-item">
-                    <a href="#0" class="text-gray">Restore</a>
+                        <form action="recycle/{{ $item->slug }}" method="post">
+                            @csrf
+                            @method('put')
+                            <button type="submit" name="restore" class="recyle-archive text-gray">Restore</button>
+                        </form>
                     </li>
                     <li class="dropdown-item">
-                    <a href="#0" class="text-gray">Archive</a>
+                        <form action="recycle/{{ $item->slug }}" method="post">
+                            @csrf
+                            @method('put')
+                            <button type="submit" name="archive" class="recyle-archive text-gray">Archive</button>
+                        </form>
                     </li>
                 </ul>
                 </div>

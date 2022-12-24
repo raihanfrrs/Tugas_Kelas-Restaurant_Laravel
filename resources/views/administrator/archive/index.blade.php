@@ -57,10 +57,11 @@
                     aria-labelledby="moreAction"
                 >
                     <li class="dropdown-item">
-                    <a href="#0" class="text-gray">Restore</a>
-                    </li>
-                    <li class="dropdown-item">
-                    <a href="#0" class="text-gray">Delete</a>
+                        <form action="/archive/{{ $item->slug }}" method="post">
+                            @csrf
+                            @method('put')
+                            <button type="submit" name="restore" class="recyle-archive text-gray">Restore</button>
+                        </form>
                     </li>
                 </ul>
                 </div>

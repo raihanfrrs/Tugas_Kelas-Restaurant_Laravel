@@ -21,6 +21,12 @@ class AdminSeeder extends Seeder
                 'name' => 'Mohamad Raihan Farras',
                 'phone' => '081333903187',
                 'email' => 'rehanfarras76@gmail.com'
+            ],
+            [
+                'user_id' => 2,
+                'name' => 'Wahyu Widyanto',
+                'phone' => '08234432234',
+                'email' => 'wahyuwidyanto76@gmail.com'
             ]
         ];
 
