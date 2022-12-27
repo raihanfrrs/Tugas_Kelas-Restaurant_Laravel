@@ -18,16 +18,6 @@
         <span class="divider"><hr></span>
         @foreach ($product as $item)
             <div class="single-notification">
-                <div class="checkbox">
-                <div class="form-check checkbox-style mb-20">
-                    <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="checkbox-1"
-                    />
-                </div>
-                </div>
                 <div class="notification">
                 <div class="image info-bg">
                     <span>{{ mb_substr($item->product_name, 0, 1) }}</span>
@@ -79,16 +69,6 @@
         <span class="divider"><hr></span>
         @foreach ($category as $item)
             <div class="single-notification">
-                <div class="checkbox">
-                <div class="form-check checkbox-style mb-20">
-                    <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="checkbox-1"
-                    />
-                </div>
-                </div>
                 <div class="notification">
                 <div class="image primary-bg">
                     <span>{{ mb_substr($item->category, 0, 1) }}</span>

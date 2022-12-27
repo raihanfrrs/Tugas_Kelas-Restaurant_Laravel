@@ -18,16 +18,6 @@
         <span class="divider"><hr></span>
         @foreach ($product as $item)
             <div class="single-notification">
-                <div class="checkbox">
-                <div class="form-check checkbox-style mb-20">
-                    <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="checkbox-1"
-                    />
-                </div>
-                </div>
                 <div class="notification">
                 <div class="image info-bg">
                     <span>{{ mb_substr($item->product_name, 0, 1) }}</span>
@@ -44,9 +34,14 @@
                 </a>
                 </div>
                 <div class="action">
-                <button class="delete-btn">
-                    <i class="lni lni-trash-can"></i>
-                </button>
+                    <form action="/recycle/{{ $item->slug }}" method="post" id="delete-form-{{ $item->slug }}">
+                        @csrf
+                        @method('delete')
+                        <input type="hidden" name="product" value="1">
+                        <button type="submit" id="delete-btn" class="delete-btn" value="{{ $item->slug }}">
+                            <i class="lni lni-trash-can"></i>
+                        </button>
+                    </form>
                 <button
                     class="more-btn dropdown-toggle"
                     id="moreAction"
@@ -63,15 +58,16 @@
                         <form action="recycle/{{ $item->slug }}" method="post">
                             @csrf
                             @method('put')
-                            <button name="product"></button>
-                            <button type="submit" name="restore" class="recyle-archive text-gray">Restore</button>
+                            <input type="hidden" name="product" value="1">
+                            <button type="submit" name="restore" class="recyle-archive text-gray" value="1">Restore</button>
                         </form>
                     </li>
                     <li class="dropdown-item">
                         <form action="recycle/{{ $item->slug }}" method="post">
                             @csrf
                             @method('put')
-                            <button type="submit" name="archive" class="recyle-archive text-gray">Archive</button>
+                            <input type="hidden" name="product" value="1">
+                            <button type="submit" name="archive" class="recyle-archive text-gray" value="1">Archive</button>
                         </form>
                     </li>
                 </ul>
@@ -90,16 +86,6 @@
         <span class="divider"><hr></span>
         @foreach ($category as $item)
             <div class="single-notification">
-                <div class="checkbox">
-                <div class="form-check checkbox-style mb-20">
-                    <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="checkbox-1"
-                    />
-                </div>
-                </div>
                 <div class="notification">
                 <div class="image primary-bg">
                     <span>{{ mb_substr($item->category, 0, 1) }}</span>
@@ -113,9 +99,14 @@
                 </a>
                 </div>
                 <div class="action">
-                <button class="delete-btn">
-                    <i class="lni lni-trash-can"></i>
-                </button>
+                    <form action="/recycle/{{ $item->slug }}" method="post" id="delete-form-{{ $item->slug }}">
+                        @csrf
+                        @method('delete')
+                        <input type="hidden" name="category" value="1">
+                        <button type="submit" id="delete-btn" class="delete-btn" value="{{ $item->slug }}">
+                            <i class="lni lni-trash-can"></i>
+                        </button>
+                    </form>
                 <button
                     class="more-btn dropdown-toggle"
                     id="moreAction"
@@ -132,14 +123,16 @@
                         <form action="recycle/{{ $item->slug }}" method="post">
                             @csrf
                             @method('put')
-                            <button type="submit" name="restore" class="recyle-archive text-gray">Restore</button>
+                            <input type="hidden" name="category" value="1">
+                            <button type="submit" name="restore" class="recyle-archive text-gray" value="1">Restore</button>
                         </form>
                     </li>
                     <li class="dropdown-item">
                         <form action="recycle/{{ $item->slug }}" method="post">
                             @csrf
                             @method('put')
-                            <button type="submit" name="archive" class="recyle-archive text-gray">Archive</button>
+                            <input type="hidden" name="category" value="1">
+                            <button type="submit" name="archive" class="recyle-archive text-gray" value="1">Archive</button>
                         </form>
                     </li>
                 </ul>
@@ -156,41 +149,26 @@
             Customer
         </p>
         <span class="divider"><hr></span>
-    @endif
-
-    @if ($cashier->count() != 0)
-        <p class="fs-3 fw-bold mt-3">
-            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M11 9C11 10.66 9.66 12 8 12C6.34 12 5 10.66 5 9C5 7.34 6.34 6 8 6C9.66 6 11 7.34 11 9M14 20H2V18C2 15.79 4.69 14 8 14C11.31 14 14 15.79 14 18M22 12V14H13V12M22 8V10H13V8M22 4V6H13V4Z" />
-            </svg>
-            Cashier
-        </p>
-        <span class="divider"><hr></span>
-        @foreach ($cashier as $item)
+        @foreach ($customer as $item)
             <div class="single-notification">
-                <div class="checkbox">
-                <div class="form-check checkbox-style mb-20">
-                    <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="checkbox-1"
-                    />
-                </div>
-                </div>
                 <div class="notification">
                 <div class="image success-bg">
                     <span>{{ mb_substr($item->name, 0, 1) }}</span>
                 </div>
-                <a href="/cashier/{{ $item->id }}" class="content">
+                <a href="#" class="content">
                     <h6>{{ $item->name }}</h6>
                     <span class="text-sm text-medium text-gray">Last Updated {{ $item->updated_at->diffForHumans() }}</span>
                 </a>
                 </div>
                 <div class="action">
-                <button class="delete-btn">
-                    <i class="lni lni-trash-can"></i>
-                </button>
+                    <form action="/recycle/{{ $item->slug }}" method="post" id="delete-form-{{ $item->slug }}">
+                        @csrf
+                        @method('delete')
+                        <input type="hidden" name="customer" value="1">
+                        <button type="submit" id="delete-btn" class="delete-btn" value="{{ $item->slug }}">
+                            <i class="lni lni-trash-can"></i>
+                        </button>
+                    </form>
                 <button
                     class="more-btn dropdown-toggle"
                     id="moreAction"
@@ -203,9 +181,68 @@
                     class="dropdown-menu dropdown-menu-end"
                     aria-labelledby="moreAction"
                 >
-                    <li class="dropdown-item">
-                    <a href="#0" class="text-gray">Restore</a>
-                    </li>
+                <li class="dropdown-item">
+                    <form action="recycle/{{ $item->slug }}" method="post">
+                        @csrf
+                        @method('put')
+                        <input type="hidden" name="customer" value="1">
+                        <button type="submit" name="restore" class="recyle-archive text-gray" value="1">Restore</button>
+                    </form>
+                </li>
+                </ul>
+                </div>
+            </div>
+        @endforeach
+    @endif
+
+    @if ($cashier->count() != 0)
+        <p class="fs-3 fw-bold mt-3">
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M11 9C11 10.66 9.66 12 8 12C6.34 12 5 10.66 5 9C5 7.34 6.34 6 8 6C9.66 6 11 7.34 11 9M14 20H2V18C2 15.79 4.69 14 8 14C11.31 14 14 15.79 14 18M22 12V14H13V12M22 8V10H13V8M22 4V6H13V4Z" />
+            </svg>
+            Cashier
+        </p>
+        <span class="divider"><hr></span>
+        @foreach ($cashier as $item)
+            <div class="single-notification">
+                <div class="notification">
+                <div class="image success-bg">
+                    <span>{{ mb_substr($item->name, 0, 1) }}</span>
+                </div>
+                <a href="/cashier/{{ $item->id }}" class="content">
+                    <h6>{{ $item->name }}</h6>
+                    <span class="text-sm text-medium text-gray">Last Updated {{ $item->user->updated_at->diffForHumans() }}</span>
+                </a>
+                </div>
+                <div class="action">
+                    <form action="/recycle/{{ $item->slug }}" method="post" id="delete-form-{{ $item->slug }}">
+                        @csrf
+                        @method('delete')
+                        <input type="hidden" name="cashier" value="1">
+                        <button type="submit" id="delete-btn" class="delete-btn" value="{{ $item->slug }}">
+                            <i class="lni lni-trash-can"></i>
+                        </button>
+                    </form>
+                <button
+                    class="more-btn dropdown-toggle"
+                    id="moreAction"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+                    <i class="lni lni-more-alt"></i>
+                </button>
+                <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="moreAction"
+                >
+                <li class="dropdown-item">
+                    <form action="recycle/{{ $item->slug }}" method="post">
+                        @csrf
+                        @method('put')
+                        <input type="hidden" name="cashier" value="1">
+                        <button type="submit" name="restore" class="recyle-archive text-gray" value="1">Restore</button>
+                    </form>
+                </li>
                 </ul>
                 </div>
             </div>
@@ -222,29 +259,24 @@
         <span class="divider"><hr></span>
         @foreach ($kitchen as $item)
             <div class="single-notification">
-                <div class="checkbox">
-                <div class="form-check checkbox-style mb-20">
-                    <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="checkbox-1"
-                    />
-                </div>
-                </div>
                 <div class="notification">
                 <div class="image warning-bg">
                     <span>{{ mb_substr($item->name, 0, 1) }}</span>
                 </div>
                 <a href="/kitchen/{{ $item->id }}" class="content">
                     <h6>{{ $item->name }}</h6>
-                    <span class="text-sm text-medium text-gray">Last Updated {{ $item->updated_at->diffForHumans() }}</span>
+                    <span class="text-sm text-medium text-gray">Last Updated {{ $item->user->updated_at->diffForHumans() }}</span>
                 </a>
                 </div>
                 <div class="action">
-                <button class="delete-btn">
-                    <i class="lni lni-trash-can"></i>
-                </button>
+                    <form action="/recycle/{{ $item->slug }}" method="post" id="delete-form-{{ $item->slug }}">
+                        @csrf
+                        @method('delete')
+                        <input type="hidden" name="kitchen" value="1">
+                        <button type="submit" id="delete-btn" class="delete-btn" value="{{ $item->slug }}">
+                            <i class="lni lni-trash-can"></i>
+                        </button>
+                    </form>
                 <button
                     class="more-btn dropdown-toggle"
                     id="moreAction"
@@ -258,7 +290,12 @@
                     aria-labelledby="moreAction"
                 >
                     <li class="dropdown-item">
-                    <a href="#0" class="text-gray">Restore</a>
+                        <form action="recycle/{{ $item->slug }}" method="post">
+                            @csrf
+                            @method('put')
+                            <input type="hidden" name="kitchen" value="1">
+                            <button type="submit" name="restore" class="recyle-archive text-gray" value="1">Restore</button>
+                        </form>
                     </li>
                 </ul>
                 </div>

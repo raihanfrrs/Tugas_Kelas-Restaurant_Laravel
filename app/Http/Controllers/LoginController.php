@@ -49,12 +49,10 @@ class LoginController extends Controller
 
         $checkUser = User::where('username', $request->username)->get();
 
-        foreach ($checkUser as $key => $value) {
-            if ($value->status === 'non-active') {
-                return back()->withErrors([
-                    'username' => 'Your account is being deactivated by the admin, please contact the admin!',
-                ])->onlyInput('username');
-            }
+        if (count($checkUser) > 0 && $checkUser[0]->status === 'non-active') {
+            return back()->withErrors([
+                'username' => 'Your account is being deactivated by the admin, please contact the admin!',
+            ])->onlyInput('username');
         }
 
         if(Auth::attempt($credential)){

@@ -17,13 +17,16 @@ class CustomerSeeder extends Seeder
     {
         $customers = [
             [
-                'name' => 'bayu'
+                'name' => 'bayu',
+                'slug' => 'bayu'
             ],
             [
-                'name' => 'santi'
+                'name' => 'santi',
+                'slug' => 'santi'
             ],
             [
-                'name' => 'fani'
+                'name' => 'fani',
+                'slug' => 'fani'
             ]
         ];
 

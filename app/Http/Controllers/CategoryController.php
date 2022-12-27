@@ -128,19 +128,17 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, Category $category)
     {
-        if (!$request->recycle) {
-            Category::where('slug', $category->slug)->update(['status' => 'delete']);
+        Category::where('slug', $category->slug)->update(['status' => 'delete']);
 
-            session(['recycle' => $request->session()->get('recycle')+1]);
+        session(['recycle' => $request->session()->get('recycle')+1]);
 
-            return redirect()->intended('/category')->with([
-                'flash-type' => 'sweetalert',
-                'case' => 'default',
-                'position' => 'center',
-                'type' => 'success',
-                'message' => 'Delete Success!'
-            ]);
-        }
+        return redirect()->intended('/category')->with([
+            'flash-type' => 'sweetalert',
+            'case' => 'default',
+            'position' => 'center',
+            'type' => 'success',
+            'message' => 'Delete Success!'
+        ]);
     }
 
     public function dataCategory(){

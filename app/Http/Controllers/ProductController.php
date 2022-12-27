@@ -153,19 +153,17 @@ class ProductController extends Controller
      */
     public function destroy(Request $request, Product $product)
     {
-        if (!$request->recycle) {
-            Product::where('slug', $product->slug)->update(['status' => 'delete']);
+        Product::where('slug', $product->slug)->update(['status' => 'delete']);
 
-            session(['recycle' => $request->session()->get('recycle')+1]);
+        session(['recycle' => $request->session()->get('recycle')+1]);
 
-            return redirect()->intended('/product')->with([
-                'flash-type' => 'sweetalert',
-                'case' => 'default',
-                'position' => 'center',
-                'type' => 'success',
-                'message' => 'Delete Success!'
-            ]);
-        }
+        return redirect()->intended('/product')->with([
+            'flash-type' => 'sweetalert',
+            'case' => 'default',
+            'position' => 'center',
+            'type' => 'success',
+            'message' => 'Delete Success!'
+        ]);
     }
 
     public function dataProduct(){

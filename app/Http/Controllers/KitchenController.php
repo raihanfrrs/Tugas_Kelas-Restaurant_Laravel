@@ -163,19 +163,17 @@ class KitchenController extends Controller
      */
     public function destroy(Request $request, Kitchen $kitchen)
     {
-        if (!$request->recycle) {
-            User::whereId($kitchen->user_id)->update(['status' => 'non-active']);
+        User::whereId($kitchen->user_id)->update(['status' => 'non-active']);
 
-            session(['recycle' => $request->session()->get('recycle')+1]);
+        session(['recycle' => $request->session()->get('recycle')+1]);
 
-            return redirect()->intended('/kitchen')->with([
-                'flash-type' => 'sweetalert',
-                'case' => 'default',
-                'position' => 'center',
-                'type' => 'success',
-                'message' => 'Delete Success!'
-            ]);
-        }
+        return redirect()->intended('/kitchen')->with([
+            'flash-type' => 'sweetalert',
+            'case' => 'default',
+            'position' => 'center',
+            'type' => 'success',
+            'message' => 'Delete Success!'
+        ]);
     }
 
     public function dataKitchen(){

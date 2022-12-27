@@ -163,19 +163,17 @@ class CashierController extends Controller
      */
     public function destroy(Request $request, Cashier $cashier)
     {
-        if (!$request->recycle) {
-            User::whereId($cashier->user_id)->update(['status' => 'non-active']);
+        User::whereId($cashier->user_id)->update(['status' => 'non-active']);
 
-            session(['recycle' => $request->session()->get('recycle')+1]);
+        session(['recycle' => $request->session()->get('recycle')+1]);
 
-            return redirect()->intended('/cashier')->with([
-                'flash-type' => 'sweetalert',
-                'case' => 'default',
-                'position' => 'center',
-                'type' => 'success',
-                'message' => 'Delete Success!'
-            ]);
-        }
+        return redirect()->intended('/cashier')->with([
+            'flash-type' => 'sweetalert',
+            'case' => 'default',
+            'position' => 'center',
+            'type' => 'success',
+            'message' => 'Delete Success!'
+        ]);
     }
 
     public function dataCashier(){

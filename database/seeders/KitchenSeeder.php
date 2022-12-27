@@ -17,8 +17,9 @@ class KitchenSeeder extends Seeder
     {
         $kitchens = [
             [
-                'user_id' => 3,
+                'user_id' => 4,
                 'name' => 'Widya Nurizma',
+                'slug' => 'widya-nurizma',
                 'phone' => '087777777777',
                 'email' => 'widyanurizma76@gmail.com'
             ]

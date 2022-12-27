@@ -105,13 +105,23 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy(Request $request, Customer $customer)
     {
-        //
+        Customer::where('slug', $customer->slug)->update(['status' => 'delete']);
+
+        session(['recycle' => $request->session()->get('recycle')+1]);
+
+        return redirect()->intended('/customer')->with([
+            'flash-type' => 'sweetalert',
+            'case' => 'default',
+            'position' => 'center',
+            'type' => 'success',
+            'message' => 'Delete Success!'
+        ]);
     }
 
     public function dataCustomer(){
-        return DataTables::of(Customer::all())
+        return DataTables::of(Customer::query()->where('status', 'show'))
         ->addColumn('action', function ($model) {
             return view('administrator.master.customer.form-action', compact('model'))->render();
         })

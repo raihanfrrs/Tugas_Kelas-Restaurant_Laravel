@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Kitchen;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RecycleController extends Controller
@@ -87,9 +88,20 @@ class RecycleController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        dd($request);
-        if (isset($request->recycle)) {
-            Product::where('slug', $slug)->update(['status' => 'show']);
+        if ($request->restore) {
+            if ($request->product) {
+                Product::where('slug', $slug)->update(['status' => 'show']);
+            }else if ($request->category) {
+                Category::where('slug', $slug)->update(['status' => 'show']);
+            }else if ($request->cashier) {
+                $cashier = Cashier::where('slug', $slug)->get();
+                User::where('id', $cashier[0]->user_id)->update(['status' => 'active']);
+            }else if ($request->kitchen) {
+                $kitchen = Kitchen::where('slug', $slug)->get();
+                User::where('id', $kitchen[0]->user_id)->update(['status' => 'active']);
+            }else if ($request->customer) {
+                Customer::where('slug', $slug)->update(['status' => 'show']);
+            }
 
             session(['recycle' => $request->session()->get('recycle')-1]);
 
@@ -102,8 +114,12 @@ class RecycleController extends Controller
             ]);
         }
 
-        if (isset($request->archive)) {
-            Product::where('slug', $slug)->update(['status' => 'archive']);
+        if ($request->archive) {
+            if ($request->product) {
+                Product::where('slug', $slug)->update(['status' => 'archive']);
+            }else if ($request->category) {
+                Category::where('slug', $slug)->update(['status' => 'archive']);
+            }
 
             session(['archive' => $request->session()->get('archive')+1, 'recycle' => $request->session()->get('recycle')-1]);
 
@@ -120,7 +136,7 @@ class RecycleController extends Controller
             'flash-type' => 'sweetalert',
             'case' => 'default',
             'position' => 'center',
-            'type' => 'success',
+            'type' => 'error',
             'message' => 'Process Failed!'
         ]);
     }
@@ -131,8 +147,28 @@ class RecycleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $slug)
     {
-        //
+        if ($request->product) {
+            Product::where('slug', $slug)->delete();
+        }elseif ($request->category) {
+            Category::where('slug', $slug)->delete();
+        }elseif ($request->customer) {
+            Customer::where('slug', $slug)->delete();
+        }elseif ($request->cashier) {
+            Cashier::where('slug', $slug)->delete();
+        }elseif ($request->kitchen) {
+            Kitchen::where('slug', $slug)->delete();
+        }
+
+        session(['recycle' => $request->session()->get('recycle')-1]);
+
+        return redirect()->intended('/recycle')->with([
+            'flash-type' => 'sweetalert',
+            'case' => 'default',
+            'position' => 'center',
+            'type' => 'success',
+            'message' => 'Delete Success!'
+        ]);
     }
 }

@@ -17,8 +17,9 @@ class CashierSeeder extends Seeder
     {
         $cashiers = [
             [
-                'user_id' => 2,
+                'user_id' => 3,
                 'name' => 'Faiz Abiyyu Rizqullah Saputra',
+                'slug' => 'faiz-abiyyu-rizqullah-saputra',
                 'phone' => '0866666666',
                 'email' => 'faizabiyyu76@gmail.com'
             ]

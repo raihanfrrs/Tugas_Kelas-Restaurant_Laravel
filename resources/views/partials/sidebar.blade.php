@@ -35,7 +35,7 @@
         <li class="nav-item nav-item-has-children">
           <a
             href="#0"
-            class="@if(request()->root() !== url()->current()) collapse @else collapsed @endif"
+            class="{{ request()->is('product', 'category', 'customer', 'cashier', 'kitchen') ? 'collapse' : 'collapsed' }}"
             data-bs-toggle="collapse"
             data-bs-target="#ddmenu_2"
             aria-controls="ddmenu_2"
@@ -57,9 +57,9 @@
             </span>
             <span class="text">Master</span>
           </a>
-          <ul id="ddmenu_2" class="collapse @if(request()->root() !== url()->current()) show @endif dropdown-nav">
+          <ul id="ddmenu_2" class="collapse {{ request()->is(['product', 'product/*'], ['category', 'category/*'], ['customer', 'customer/*'], ['cashier', 'cashier/*'], ['kitchen', 'kitchen/*']) ? 'show' : '' }} dropdown-nav">
             <li>
-              <a href="/product" class="@if(Request::segment(1) === 'product') active @endif"> Product </a>
+              <a href="/product" class="@if(Request::segment(1) === 'product') active @endif"> Product</a>
             </li>
             <li>
               <a href="/category" class="@if(Request::segment(1) === 'category') active @endif"> Category </a>
@@ -128,9 +128,9 @@
             </span>
             <span class="text">Dashboard</span>
           </a>
-          <ul id="ddmenu_1" class="collapse show dropdown-nav">
+          <ul id="ddmenu_1" class="collapse @if(request()->root() === url()->current()) show @endif dropdown-nav">
             <li>
-              <a href="index.html" class="active"> Main </a>
+              <a href="/" class="@if(request()->root() === url()->current()) active @endif"> Main </a>
             </li>
           </ul>
         </li>
