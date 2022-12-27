@@ -78,8 +78,12 @@ class ArchiveController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        if (!$request->restore) {
-            Product::where('slug', $slug)->update(['status' => 'show']);
+        if ($request->restore) {
+            if ($request->product) {
+                Product::where('slug', $slug)->update(['status' => 'show']);
+            }elseif ($request->category) {
+                Category::where('slug', $slug)->update(['status' => 'show']);
+            }
 
             session(['archive' => $request->session()->get('archive')-1]);
 
@@ -89,6 +93,24 @@ class ArchiveController extends Controller
                 'position' => 'center',
                 'type' => 'success',
                 'message' => 'Restore Success!'
+            ]);
+        }
+
+        if ($request->recycle) {
+            if ($request->product) {
+                Product::where('slug', $slug)->update(['status' => 'delete']);
+            }elseif ($request->category) {
+                Category::where('slug', $slug)->update(['status' => 'delete']);
+            }
+
+            session(['archive' => $request->session()->get('archive')-1, 'recycle' => $request->session()->get('recycle')+1]);
+
+            return redirect()->intended('/archive')->with([
+                'flash-type' => 'sweetalert',
+                'case' => 'default',
+                'position' => 'center',
+                'type' => 'success',
+                'message' => 'Move to Recycle Success!'
             ]);
         }
     }

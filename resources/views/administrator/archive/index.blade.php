@@ -30,7 +30,7 @@
                     <p class="text-sm text-gray">
                         @currency($item->price)
                     </p>
-                    <span class="text-sm text-medium text-gray">Last Updated {{ $item->updated_at->diffForHumans() }}</span>
+                    <span class="text-sm text-medium text-gray">Archived {{ $item->updated_at->diffForHumans() }}</span>
                 </a>
                 </div>
                 <div class="action">
@@ -50,7 +50,16 @@
                         <form action="/archive/{{ $item->slug }}" method="post">
                             @csrf
                             @method('put')
-                            <button type="submit" name="restore" class="recyle-archive text-gray">Restore</button>
+                            <input type="hidden" name="product" value="1">
+                            <button type="submit" name="restore" class="recyle-archive text-gray" value="1">Restore</button>
+                        </form>
+                    </li>
+                    <li class="dropdown-item">
+                        <form action="/archive/{{ $item->slug }}" method="post">
+                            @csrf
+                            @method('put')
+                            <input type="hidden" name="product" value="1">
+                            <button type="submit" name="recycle" class="recyle-archive text-gray" value="1">Delete</button>
                         </form>
                     </li>
                 </ul>
@@ -78,7 +87,7 @@
                     <p class="text-sm text-gray">
                         Have {{ $item->product->count() }} product.
                     </p>
-                    <span class="text-sm text-medium text-gray">Last Updated {{ $item->updated_at->diffForHumans() }}</span>
+                    <span class="text-sm text-medium text-gray">Archived {{ $item->updated_at->diffForHumans() }}</span>
                 </a>
                 </div>
                 <div class="action">
@@ -95,10 +104,20 @@
                     aria-labelledby="moreAction"
                 >
                     <li class="dropdown-item">
-                    <a href="#0" class="text-gray">Restore</a>
+                        <form action="/archive/{{ $item->slug }}" method="post">
+                            @csrf
+                            @method('put')
+                            <input type="hidden" name="category" value="1">
+                            <button type="submit" name="restore" class="recyle-archive text-gray" value="1">Restore</button>
+                        </form>
                     </li>
                     <li class="dropdown-item">
-                    <a href="#0" class="text-gray">Delete</a>
+                        <form action="/archive/{{ $item->slug }}" method="post">
+                            @csrf
+                            @method('put')
+                            <input type="hidden" name="category" value="1">
+                            <button type="submit" name="recycle" class="recyle-archive text-gray" value="1">Delete</button>
+                        </form>
                     </li>
                 </ul>
                 </div>

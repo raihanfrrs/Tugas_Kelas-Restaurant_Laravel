@@ -30,7 +30,7 @@
                     <p class="text-sm text-gray">
                         @currency($item->price)
                     </p>
-                    <span class="text-sm text-medium text-gray">Last Updated {{ $item->updated_at->diffForHumans() }}</span>
+                    <span class="text-sm text-medium text-gray">Moved in {{ $item->updated_at->diffForHumans() }}</span>
                 </a>
                 </div>
                 <div class="action">
@@ -95,7 +95,7 @@
                     <p class="text-sm text-gray">
                         Have {{ $item->product->count() }} product.
                     </p>
-                    <span class="text-sm text-medium text-gray">Last Updated {{ $item->updated_at->diffForHumans() }}</span>
+                    <span class="text-sm text-medium text-gray">Moved in {{ $item->updated_at->diffForHumans() }}</span>
                 </a>
                 </div>
                 <div class="action">
@@ -157,7 +157,7 @@
                 </div>
                 <a href="#" class="content">
                     <h6>{{ $item->name }}</h6>
-                    <span class="text-sm text-medium text-gray">Last Updated {{ $item->updated_at->diffForHumans() }}</span>
+                    <span class="text-sm text-medium text-gray">Moved in {{ $item->updated_at->diffForHumans() }}</span>
                 </a>
                 </div>
                 <div class="action">
@@ -211,7 +211,7 @@
                 </div>
                 <a href="/cashier/{{ $item->id }}" class="content">
                     <h6>{{ $item->name }}</h6>
-                    <span class="text-sm text-medium text-gray">Last Updated {{ $item->user->updated_at->diffForHumans() }}</span>
+                    <span class="text-sm text-medium text-gray">Moved in {{ $item->user->updated_at->diffForHumans() }}</span>
                 </a>
                 </div>
                 <div class="action">
@@ -265,7 +265,7 @@
                 </div>
                 <a href="/kitchen/{{ $item->id }}" class="content">
                     <h6>{{ $item->name }}</h6>
-                    <span class="text-sm text-medium text-gray">Last Updated {{ $item->user->updated_at->diffForHumans() }}</span>
+                    <span class="text-sm text-medium text-gray">Moved in {{ $item->user->updated_at->diffForHumans() }}</span>
                 </a>
                 </div>
                 <div class="action">
