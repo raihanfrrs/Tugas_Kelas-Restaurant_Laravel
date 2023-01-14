@@ -3,25 +3,26 @@
 namespace App\Models;
 
 use App\Models\Product;
-use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class DetailTransaction extends Model
+class TempCart extends Model
 {
     use HasFactory;
 
-    protected $guarded = [
-        'id'
-    ];
+    protected $primaryKey = 'product_id';
 
-    public function transaction()
-    {
-        return $this->belongsTo(Transaction::class);
-    }
+    public $incrementing = false;
+
+    protected $keyType = 'integer';
 
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
+
+    protected $guarded = [
+        'id'
+    ];
+
 }

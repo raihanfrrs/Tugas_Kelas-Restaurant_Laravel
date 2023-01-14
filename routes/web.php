@@ -1,19 +1,23 @@
 <?php
 
-use App\Http\Controllers\ArchiveController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\CashierController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RecycleController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TempCartController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\DetailTransactionController;
-use App\Http\Controllers\RecycleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +53,11 @@ Route::middleware('auth')->group(function () {
         Route::get('logout', 'index')->name('logout');
     });
 
+    Route::controller(SettingController::class)->group(function () {
+        Route::get('settings', 'index');
+        Route::post('settings/{id}/profile', 'profile_update');
+    });
+
     Route::group(['middleware' => ['cekUserLogin:administrator']], function () {
         Route::resource('product', ProductController::class);
         Route::resource('category', CategoryController::class);
@@ -57,15 +66,39 @@ Route::middleware('auth')->group(function () {
         Route::resource('kitchen', KitchenController::class);
         Route::resource('recycle', RecycleController::class);
         Route::resource('archive', ArchiveController::class);
+        
+        Route::controller(ServiceController::class)->group(function () {
+            Route::get('service/tax', 'tax_index');
+            Route::put('service/tax/{tax}', 'tax_update');
+            Route::post('service/tax/store', 'tax_store');
+        });
     });
 
     Route::group(['middleware' => ['cekUserLogin:cashier']], function () {
         Route::resource('transaction', TransactionController::class);
-        Route::resource('item', DetailTransaction::class);
+
+        Route::controller(InvoiceController::class)->group(function () {
+            Route::get('invoice', 'index');
+            Route::get('invoice/{transaction}/read', 'read');
+        });
+
+        Route::controller(TempCartController::class)->group(function () {
+            Route::get('cart', 'index');
+            Route::get('cart/read', 'read');
+            Route::post('cart/{product}/store', 'store');
+            Route::put('cart/update', 'update');
+            Route::delete('cart/{id}', 'destroy');
+        });
+
+        Route::controller(ProductController::class)->group(function () {
+            Route::get('menu', 'index');
+            Route::post('product/search', 'search');
+            Route::get('product/search/results', 'results');
+        });
     });
 
     Route::group(['middleware' => ['cekUserLogin:kitchen']], function () {
-        Route::resource('transaction', TransactionController::class);
+        // Route::resource('transaction', TransactionController::class);
         Route::resource('item', DetailTransactionController::class);
     });
 
@@ -74,4 +107,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/dataCustomer', [CustomerController::class, 'dataCustomer'])->name('dataCustomer');
     Route::get('/dataCashier', [CashierController::class, 'dataCashier'])->name('dataCashier');
     Route::get('/dataKitchen', [KitchenController::class, 'dataKitchen'])->name('dataKitchen');
+    Route::get('/dataTax', [ServiceController::class, 'dataTax'])->name('dataTax');
+    Route::get('/dataInvoice', [InvoiceController::class, 'dataInvoice'])->name('dataInvoice');
 });

@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Product;
-use App\Models\Transaction;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('detail_transactions', function (Blueprint $table) {
+        Schema::create('taxes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Transaction::class);
-            $table->foreignIdFor(Product::class);
-            $table->string('qty');
-            $table->string('subtotal');
+            $table->string('tax');
+            $table->enum('status', ['active', 'non-active']);
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_transactions');
+        Schema::dropIfExists('taxes');
     }
 };

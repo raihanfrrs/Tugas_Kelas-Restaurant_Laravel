@@ -52,4 +52,6 @@
     <script src="{{ asset('/') }}assets/js/datatables.js" type="text/javascript"></script>
     <script src="{{ asset('/') }}assets/js/pre-image.js" type="text/javascript"></script>
     <script src="{{ asset('/') }}assets/js/button.js" type="text/javascript"></script>
+
+    @stack('scripts')
 </html>

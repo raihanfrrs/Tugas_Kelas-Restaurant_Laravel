@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Enum;
 use App\Enums\ServerStatus;
+use Illuminate\Http\Request;
+
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -17,9 +18,39 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('administrator.master.product.index');
+        $array = array();
+        $bigArray = array();
+        $category = Product::join('categories', 'products.category_id', '=', 'categories.id')
+                                ->select('products.*', 'categories.*')
+                                ->orderBy('categories.id')
+                                ->get();
+        foreach ($category as $key => $value) {
+            array_push($array, $value->id);
+        }
+
+        $counter = array_values(array_unique($array));
+
+        for ($i=0; $i < count($counter); $i++) { 
+            $product = Product::join('categories', 'products.category_id', '=', 'categories.id')
+                                ->select('products.*')
+                                ->where('products.category_id', '=', $counter[$i])
+                                ->get(); 
+            array_push($bigArray, $product);
+        }
+
+        if (auth()->user()->level == 'administrator') {
+            return view('administrator.master.product.index');
+        }elseif (auth()->user()->level == 'cashier') {
+            if (!empty($request->session()->get('product'))) {
+                $request->session()->forget(['input', 'product']);
+            }
+
+            return view('cashier.product.index')->with([
+                'product' => $bigArray
+            ]);
+        }
     }
 
     /**
@@ -172,5 +203,45 @@ class ProductController extends Controller
             return view('administrator.master.product.form-action', compact('model'))->render();
         })
         ->make(true);
+    }
+
+    public function search(Request $request){
+        $search = Product::join('categories', 'products.category_id', '=', 'categories.id')
+                        ->select('products.*')
+                        ->where('product_name', 'LIKE', '%'.$request->product.'%')
+                        ->orWhere('price', 'LIKE', '%'.$request->product.'%')
+                        ->orWhereHas('category', function($query) use($request){
+                            $query->where('category', 'LIKE', '%'.$request->product.'%');
+                        })->get();
+
+        if ($search->isEmpty()) {
+            if ($request->session()->get('product')) {
+                return redirect()->intended('/product/search/results')->with([
+                    'flash-type' => 'sweetalert',
+                    'case' => 'default',
+                    'position' => 'center',
+                    'type' => 'warning',
+                    'message' => 'Product Not Found!'
+                ]);
+            }
+
+            return redirect()->intended('/product')->with([
+                'flash-type' => 'sweetalert',
+                'case' => 'default',
+                'position' => 'center',
+                'type' => 'warning',
+                'message' => 'Product Not Found!'
+            ]);
+        }
+
+        session(['input' => $request->product, 'product' => array($search)]);
+        
+        return redirect()->intended('/product/search/results');
+    }
+
+    public function results(Request $request){
+        return view('cashier.product.index')->with([
+            'product' => $request->session()->get('product')
+        ]);
     }
 }

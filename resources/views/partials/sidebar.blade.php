@@ -79,6 +79,32 @@
         <li class="nav-item nav-item-has-children">
           <a
             href="#0"
+            class="{{ request()->is('service/*') ? 'collapse' : 'collapsed' }}"
+            data-bs-toggle="collapse"
+            data-bs-target="#ddmenu_3"
+            aria-controls="ddmenu_3"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+          <span class="icon">
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M20 8H17V6C17 4.9 16.1 4 15 4H9C7.9 4 7 4.9 7 6V8H4C2.9 8 2 8.9 2 10V20H22V10C22 8.9 21.1 8 20 8M9 6H15V8H9V6M20 18H4V15H6V16H8V15H16V16H18V15H20V18M18 13V12H16V13H8V12H6V13H4V10H20V13H18Z" />
+          </svg>
+          </span>
+            <span class="text">Extra Service</span>
+          </a>
+          <ul id="ddmenu_3" class="collapse {{ request()->is('service/*') ? 'show' : '' }} dropdown-nav">
+            <li>
+              <a href="/service/tax" class="@if(Request::segment(2) === 'tax') active @endif"> Tax</a>
+            </li>
+            <li>
+              <a href="/service/discount" @if(Request::segment(2) === 'discount') active @endif> Discount</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item nav-item-has-children">
+          <a
+            href="#0"
             class="collapsed"
             data-bs-toggle="collapse"
             data-bs-target="#ddmenu_4"
@@ -113,6 +139,7 @@
         <li class="nav-item nav-item-has-children">
           <a
             href="#0"
+            class="@if(request()->root() === url()->current()) collapse @else collapsed @endif"
             data-bs-toggle="collapse"
             data-bs-target="#ddmenu_1"
             aria-controls="ddmenu_1"
@@ -134,30 +161,22 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item">
-          <a href="invoice.html">
+        <li class="nav-item @if(Request::segment(1) === 'menu') active @endif">
+          <a href="/menu">
             <span class="icon">
               <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M17,18A2,2 0 0,1 19,20A2,2 0 0,1 17,22C15.89,22 15,21.1 15,20C15,18.89 15.89,18 17,18M1,2H4.27L5.21,4H20A1,1 0 0,1 21,5C21,5.17 20.95,5.34 20.88,5.5L17.3,11.97C16.96,12.58 16.3,13 15.55,13H8.1L7.2,14.63L7.17,14.75A0.25,0.25 0 0,0 7.42,15H19V17H7C5.89,17 5,16.1 5,15C5,14.65 5.09,14.32 5.24,14.04L6.6,11.59L3,4H1V2M7,18A2,2 0 0,1 9,20A2,2 0 0,1 7,22C5.89,22 5,21.1 5,20C5,18.89 5.89,18 7,18M16,11L18.78,6H6.14L8.5,11H16Z" />
-            </svg>
+                <path fill="currentColor" d="M18.06 23H19.72C20.56 23 21.25 22.35 21.35 21.53L23 5.05H18V1H16.03V5.05H11.06L11.36 7.39C13.07 7.86 14.67 8.71 15.63 9.65C17.07 11.07 18.06 12.54 18.06 14.94V23M1 22V21H16.03V22C16.03 22.54 15.58 23 15 23H2C1.45 23 1 22.54 1 22M16.03 15C16.03 7 1 7 1 15H16.03M1 17H16V19H1V17Z" />
+              </svg>
             </span>
-            <span class="text">Transaction</span>
+            <span class="text">Menu</span>
           </a>
         </li>
         <span class="divider"><hr /></span>
         <li class="nav-item">
-          <a href="invoice.html">
+          <a href="/invoice">
             <span class="icon">
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 22 22"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M17.4166 7.33333C18.9383 7.33333 20.1666 8.56167 20.1666 10.0833V15.5833H16.4999V19.25H5.49992V15.5833H1.83325V10.0833C1.83325 8.56167 3.06159 7.33333 4.58325 7.33333H5.49992V2.75H16.4999V7.33333H17.4166ZM7.33325 4.58333V7.33333H14.6666V4.58333H7.33325ZM14.6666 17.4167V13.75H7.33325V17.4167H14.6666ZM16.4999 13.75H18.3333V10.0833C18.3333 9.57917 17.9208 9.16667 17.4166 9.16667H4.58325C4.07909 9.16667 3.66659 9.57917 3.66659 10.0833V13.75H5.49992V11.9167H16.4999V13.75ZM17.4166 10.5417C17.4166 11.0458 17.0041 11.4583 16.4999 11.4583C15.9958 11.4583 15.5833 11.0458 15.5833 10.5417C15.5833 10.0375 15.9958 9.625 16.4999 9.625C17.0041 9.625 17.4166 10.0375 17.4166 10.5417Z"
-                />
+              <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M3,22L4.5,20.5L6,22L7.5,20.5L9,22L10.5,20.5L12,22L13.5,20.5L15,22L16.5,20.5L18,22L19.5,20.5L21,22V2L19.5,3.5L18,2L16.5,3.5L15,2L13.5,3.5L12,2L10.5,3.5L9,2L7.5,3.5L6,2L4.5,3.5L3,2M18,9H6V7H18M18,13H6V11H18M18,17H6V15H18V17Z" />
               </svg>
             </span>
             <span class="text">Invoice</span>

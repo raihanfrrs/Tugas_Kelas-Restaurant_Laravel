@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignIdFor(Customer::class);
             $table->string('tax');
             $table->string('grand_total');
-            $table->timestamp('transaction_at');
+            $table->enum('status', ['order', 'cooking', 'serve', 'reject']);
             $table->timestamps();
         });
     }

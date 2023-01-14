@@ -2037,10 +2037,10 @@ h6,
 .invoice-table td {
   padding: 10px 8px; }
 
-.invoice-table .service {
+.invoice-table .product {
   min-width: 150px; }
 
-.invoice-table .desc {
+.invoice-table .category {
   min-width: 150px; }
 
 .invoice-table .qty {
@@ -2410,6 +2410,10 @@ h6,
   display: block !important;
   font-size: 14px !important;
   margin-left: 0px !important;
+}
+
+#dataTax thead, #dataTax th {
+  text-align: center;
 }
 
 /* ========== DEFAULT CSS ======== */

@@ -7,6 +7,7 @@ use App\Models\Kitchen;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Customer;
+use App\Models\TempCart;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,7 @@ class LayoutController extends Controller
 
         $count = $product + $category;
 
-        session(['archive' => $count]);
+        session(['archive' => $count, 'cart' => TempCart::count()]);
 
         return view('welcome')->with([
             'total_products' => Product::count(),

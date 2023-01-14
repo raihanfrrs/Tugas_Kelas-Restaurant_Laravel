@@ -11,6 +11,15 @@
                 <i class="lni lni-chevron-left me-2"></i> Menu
               </button>
             </div>
+            @if (auth()->user()->level === 'cashier' && Request::segment(1) === 'menu')
+            <div class="header-search d-none d-md-flex">
+              <form action="/product/search" method="post">
+                @csrf
+                <input type="text" class="text-capitalize" name="product" placeholder="Search..." autocomplete="off" required value="{{ session('input') ? session('input') : '' }}"/>
+                <button type="submit"><i class="lni lni-search-alt"></i></button>
+              </form>
+            </div>
+            @endif
           </div>
         </div>
         <div class="col-lg-7 col-md-7 col-6">
@@ -106,6 +115,19 @@
                   </button>
                 </a>
               </div>
+            @elseif (auth()->user()->level === 'cashier')
+              <div id="cart" class="ml-15 d-none d-md-flex">
+                <a href="/cart">
+                  <button class="" type="button" id="filter">
+                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M9 20C9 21.1 8.1 22 7 22S5 21.1 5 20 5.9 18 7 18 9 18.9 9 20M17 18C15.9 18 15 18.9 15 20S15.9 22 17 22 19 21.1 19 20 18.1 18 17 18M7.2 14.8V14.7L8.1 13H15.5C16.2 13 16.9 12.6 17.2 12L21.1 5L19.4 4L15.5 11H8.5L4.3 2H1V4H3L6.6 11.6L5.2 14C5.1 14.3 5 14.6 5 15C5 16.1 5.9 17 7 17H19V15H7.4C7.3 15 7.2 14.9 7.2 14.8M12 9.3L11.4 8.8C9.4 6.9 8 5.7 8 4.2C8 3 9 2 10.2 2C10.9 2 11.6 2.3 12 2.8C12.4 2.3 13.1 2 13.8 2C15 2 16 2.9 16 4.2C16 5.7 14.6 6.9 12.6 8.8L12 9.3Z" />
+                    </svg>
+                    @if (Session::get('cart') != 0)
+                      <span>{{ Session::get('cart'); }}</span>
+                    @endif
+                  </button>
+                </a>
+              </div>
             @endif
             <div class="profile-box ml-15">
               <button
@@ -127,7 +149,7 @@
                 aria-labelledby="profile"
               >
                 <li>
-                  <a href="#0"> <i class="lni lni-cog"></i> Settings </a>
+                  <a href="/settings"> <i class="lni lni-cog"></i> Settings </a>
                 </li>
                 <li>
                   <a href="/logout"> <i class="lni lni-exit"></i> Sign Out </a>
