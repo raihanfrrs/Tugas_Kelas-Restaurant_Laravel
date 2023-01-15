@@ -76,16 +76,45 @@ class SettingController extends Controller
         //
     }
 
-    public function profile_update(Request $request)
+    public function profile_update(Request $request, $id)
     {
-        $validateData = $request->validate([
-            'name' => 'required|min:2|max:255|unique:cashiers',
-            'phone' => 'required|numeric|unique:cashiers',
-            'email' => 'required|min:5|max:255|unique:cashiers|email:rfc,dns',
-            'image' => 'image|file|max:2048',
-            'username' => 'required|min:5|max:255|unique:users|alpha_num',
-            'password' => ['required', Password::min(5)->mixedCase()->letters()->numbers()->symbols()->uncompromised()]
-        ]);
+        if (auth()->user()->level == 'administrator') {
+            $admin = Admin::findOrFail($id);
+
+            $admins = [
+                'image' => 'image|file|max:2048'
+            ];
+
+            if ($request->name != $admin->name) {
+                $admins['name'] = 'required|min:2|max:255|unique:admins';
+            }
+
+            if ($request->) {
+                # code...
+            }
+
+            $validateData = $request->validate([
+                'phone' => 'required|numeric|unique:admins',
+                'email' => 'required|min:5|max:255|unique:admins|email:rfc,dns',
+                'username' => 'required|min:5|max:255|unique:users|alpha_num',
+            ]);
+        } elseif (auth()->user()->level == 'cashier') {
+            $validateData = $request->validate([
+                'name' => 'required|min:2|max:255|unique:cashiers',
+                'phone' => 'required|numeric|unique:cashiers',
+                'email' => 'required|min:5|max:255|unique:cashiers|email:rfc,dns',
+                'username' => 'required|min:5|max:255|unique:users|alpha_num',
+                'image' => 'image|file|max:2048'
+            ]);
+        } elseif (auth()->user()->level == 'kitchen') {
+            $validateData = $request->validate([
+                'name' => 'required|min:2|max:255|unique:kitchens',
+                'phone' => 'required|numeric|unique:kitchens',
+                'email' => 'required|min:5|max:255|unique:kitchens|email:rfc,dns',
+                'username' => 'required|min:5|max:255|unique:users|alpha_num',
+                'image' => 'image|file|max:2048'
+            ]);
+        }
 
         $validateData['status'] = 'active';
         $validateData['level'] = 'cashier';
