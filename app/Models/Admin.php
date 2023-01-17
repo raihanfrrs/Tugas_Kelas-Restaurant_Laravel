@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use App\Models\User;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Admin extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
-    protected $table = 'admins';
-
-    protected $fillable = ['username', 'password', 'status'];
+    protected $guarded = [
+        'id'
+    ];
 
     public function user()
     {

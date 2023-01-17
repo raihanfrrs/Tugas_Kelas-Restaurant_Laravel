@@ -22,11 +22,13 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td style="width: 20%;">
-                        @if ($item->product->image)
+                        <div style="max-height: 150px; overflow: hidden;">
+                            @if ($item->product->image)
                             <img src="{{ asset('storage/'.$item->product->image) }}" class="img-thumbnail rounded" alt="product image">
-                        @else
-                            <img src="https://source.unsplash.com/800x400?food" class="img-fluid rounded" alt="product image">
-                        @endif
+                            @else
+                                <img src="https://source.unsplash.com/800x400?food" class="img-fluid rounded" alt="product image">
+                            @endif
+                        </div>
                     </td>
                     <td class="text-center fs-5">
                         {{ $item->product->product_name }}

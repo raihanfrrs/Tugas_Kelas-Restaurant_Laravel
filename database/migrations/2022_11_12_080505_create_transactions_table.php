@@ -2,7 +2,7 @@
 
 use App\Models\Cashier;
 use App\Models\Customer;
-use App\Models\Product;
+use App\Models\Kitchen;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +20,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Cashier::class);
             $table->foreignIdFor(Customer::class);
+            $table->foreignIdFor(Kitchen::class)->nullable();
             $table->string('tax');
             $table->string('grand_total');
             $table->enum('status', ['order', 'cooking', 'serve', 'reject']);

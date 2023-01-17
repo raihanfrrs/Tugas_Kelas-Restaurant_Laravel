@@ -81,7 +81,8 @@ $(document).ready( function () {
             { data: 'grand_total', name: 'grand_total', class: 'text-muted text-capitalize text-center' },
             { data: 'cashier', name: 'cashier', class: 'text-muted text-capitalize text-center' },
             { data: 'date', name: 'date', class: 'text-muted text-capitalize text-center' },
-            { data: 'action', name: 'action', class: 'text-muted text-capitalize text-center' },
+            { data: 'status', name: 'status', class: 'text-muted text-capitalize text-center' },
+            { data: 'action', name: 'action', class: 'text-muted text-capitalize text-center' }
         ]
     });
 

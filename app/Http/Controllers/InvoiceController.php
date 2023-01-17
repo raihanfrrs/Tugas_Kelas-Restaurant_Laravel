@@ -101,12 +101,16 @@ class InvoiceController extends Controller
         return DataTables::of(Transaction::join('cashiers', 'transactions.cashier_id', '=', 'cashiers.id')
                                         ->join('customers', 'transactions.customer_id', '=', 'customers.id')
                                         ->join('detail_transactions', 'transactions.id', '=' , 'detail_transactions.transaction_id')
-                                        ->select('transactions.id','cashiers.name as cashier', 'customers.name as customer', 'transactions.grand_total', DetailTransaction::raw('SUM(qty) as total_amount'), Transaction::raw('DATE_FORMAT(transactions.created_at, "%d/%m/%Y") as date'))
+                                        ->select('transactions.id','cashiers.name as cashier', 'customers.name as customer', 'transactions.status','transactions.grand_total', DetailTransaction::raw('SUM(qty) as total_amount'), Transaction::raw('DATE_FORMAT(transactions.created_at, "%d/%m/%Y") as date'))
                                         ->groupBy('transactions.id')
                                         ->get())
+        ->addColumn('status', function ($model) {
+            return view('cashier.invoice.status-action', compact('model'))->render();
+        })
         ->addColumn('action', function ($model) {
             return view('cashier.invoice.form-action', compact('model'))->render();
         })
+        ->rawColumns(['status', 'action'])
         ->make(true);
     }
 }

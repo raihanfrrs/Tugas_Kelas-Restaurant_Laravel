@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Admin;
 use App\Models\Cashier;
 use App\Models\Kitchen;
 use App\Models\Setting;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -79,63 +83,132 @@ class SettingController extends Controller
     public function profile_update(Request $request, $id)
     {
         if (auth()->user()->level == 'administrator') {
-            $admin = Admin::findOrFail($id);
+            $admin = Admin::where('user_id', $id)->get();
 
             $admins = [
                 'image' => 'image|file|max:2048'
             ];
 
-            if ($request->name != $admin->name) {
+            if ($request->name != $admin[0]->name) {
                 $admins['name'] = 'required|min:2|max:255|unique:admins';
             }
 
-            if ($request->) {
-                # code...
+            if ($request->email != $admin[0]->email) {
+                $admins['email'] = 'required|min:5|max:255|unique:admins|email:rfc,dns';
             }
 
-            $validateData = $request->validate([
-                'phone' => 'required|numeric|unique:admins',
-                'email' => 'required|min:5|max:255|unique:admins|email:rfc,dns',
-                'username' => 'required|min:5|max:255|unique:users|alpha_num',
-            ]);
+            if ($request->phone != $admin[0]->phone) {
+                $admins['phone'] = 'required|numeric|unique:admins';
+            }
+
+            $validateData = $request->validate($admins);
+
+            $validateData['slug'] = slug($request->name);
+
+            if ($request->file('image')) {
+                if ($admin[0]->image) {
+                    Storage::delete($admin[0]->image);
+                }
+                $validateData['image'] = $request->file('image')->store('admin-image');
+            }
+
+            Admin::where('user_id', $id)->update($validateData);
+
+            if ($request->username != auth()->user()->username) {
+                $users['username'] = 'required|min:5|max:255|unique:users|alpha_num';
+
+                User::findOrFail(auth()->user()->id)->update($request->validate($users));
+            }
+
         } elseif (auth()->user()->level == 'cashier') {
-            $validateData = $request->validate([
-                'name' => 'required|min:2|max:255|unique:cashiers',
-                'phone' => 'required|numeric|unique:cashiers',
-                'email' => 'required|min:5|max:255|unique:cashiers|email:rfc,dns',
-                'username' => 'required|min:5|max:255|unique:users|alpha_num',
+            $cashier = Cashier::where('user_id', $id)->get();
+
+            $cashiers = [
                 'image' => 'image|file|max:2048'
-            ]);
+            ];
+
+            if ($request->name != $cashier[0]->name) {
+                $cashiers['name'] = 'required|min:2|max:255|unique:cashiers';
+            }
+
+            if ($request->email != $cashier[0]->email) {
+                $cashiers['email'] = 'required|min:5|max:255|unique:cashiers|email:rfc,dns';
+            }
+
+            if ($request->phone != $cashier[0]->phone) {
+                $cashiers['phone'] = 'required|numeric|unique:cashiers';
+            }
+
+            $validateData = $request->validate($cashiers);
+
+            $validateData['slug'] = slug($request->name);
+
+            if ($request->file('image')) {
+                if ($cashier[0]->image) {
+                    Storage::delete($cashier[0]->image);
+                }
+                $validateData['image'] = $request->file('image')->store('cashier-image');
+            }
+
+            Cashier::where('user_id', $id)->update($validateData);
+
+            if ($request->username != auth()->user()->username) {
+                $users['username'] = 'required|min:5|max:255|unique:users|alpha_num';
+
+                User::findOrFail(auth()->user()->id)->update($request->validate($users));
+            }
         } elseif (auth()->user()->level == 'kitchen') {
-            $validateData = $request->validate([
-                'name' => 'required|min:2|max:255|unique:kitchens',
-                'phone' => 'required|numeric|unique:kitchens',
-                'email' => 'required|min:5|max:255|unique:kitchens|email:rfc,dns',
-                'username' => 'required|min:5|max:255|unique:users|alpha_num',
+            $kitchen = Kitchen::where('user_id', $id)->get();
+
+            $kitchens = [
                 'image' => 'image|file|max:2048'
-            ]);
+            ];
+
+            if ($request->name != $kitchen[0]->name) {
+                $kitchens['name'] = 'required|min:2|max:255|unique:kitchens';
+            }
+
+            if ($request->email != $kitchen[0]->email) {
+                $kitchens['email'] = 'required|min:5|max:255|unique:kitchens|email:rfc,dns';
+            }
+
+            if ($request->phone != $kitchen[0]->phone) {
+                $kitchens['phone'] = 'required|numeric|unique:kitchens';
+            }
+
+            $validateData = $request->validate($kitchens);
+
+            $validateData['slug'] = slug($request->name);
+
+            if ($request->file('image')) {
+                if ($kitchen[0]->image) {
+                    Storage::delete($kitchen[0]->image);
+                }
+                $validateData['image'] = $request->file('image')->store('kitchen-image');
+            }
+
+            Kitchen::where('user_id', $id)->update($validateData);
+
+            if ($request->username != auth()->user()->username) {
+                $users['username'] = 'required|min:5|max:255|unique:users|alpha_num';
+
+                User::findOrFail(auth()->user()->id)->update($request->validate($users));
+            }
         }
 
-        $validateData['status'] = 'active';
-        $validateData['level'] = 'cashier';
-        $validateData['password'] = bcrypt($validateData['password']);
-        $user = User::create($validateData);
-
-        $validateData['user_id'] = $user->id;
-        if ($request->file('image')) {
-            $validateData['image'] = $request->file('image')->store('cashier-image');
-        }
-
-        Cashier::create($validateData);
-
-        return redirect()->intended('/cashier/create')->with([
+        return redirect()->intended('/settings')->with([
             'flash-type' => 'sweetalert',
             'case' => 'default',
             'position' => 'center',
             'type' => 'success',
-            'message' => 'Add Cashier Success!'
+            'message' => 'Update Success!'
         ]);
     }
+
+    public function password_update(Request $request)
+    {
+        User::whereId(auth()->user()->id)->update(['password' => Hash::make($request->new_password)]);
+    } 
 
     /**
      * Remove the specified resource from storage.
@@ -146,5 +219,14 @@ class SettingController extends Controller
     public function destroy(Setting $setting)
     {
         //
+    }
+
+    public function check_password(Request $request)
+    {
+        $user = User::findOrFail(auth()->user()->id);
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            return "Invalid Password";
+        }
     }
 }

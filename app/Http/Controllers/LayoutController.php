@@ -7,6 +7,7 @@ use App\Models\Kitchen;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Customer;
+use App\Models\DetailTransaction;
 use App\Models\TempCart;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -37,12 +38,38 @@ class LayoutController extends Controller
 
         session(['archive' => $count, 'cart' => TempCart::count()]);
 
-        return view('welcome')->with([
-            'total_products' => Product::count(),
-            'total_customers' => Customer::count(),
-            'total_income' => Transaction::sum('grand_total'),
-            'total_orders' => Transaction::count()
-        ]);
+        if (auth()->user()->level === 'administrator') {
+            return view('welcome')->with([
+                'total_products' => Product::count(),
+                'total_customers' => Transaction::join('customers', 'transactions.customer_id', '=', 'customers.id')
+                                                ->where('transactions.status', 'serve')
+                                                ->count(),
+                'total_income' => Transaction::where('status', 'serve')->sum('grand_total'),
+                'total_orders' => Transaction::where('status', 'serve')->count()
+            ]);
+        } elseif (auth()->user()->level === 'cashier') {
+            return view('welcome')->with([
+                'task_completed' => Transaction::where('cashier_id', auth()->user()->cashier->id)
+                                            ->where('status', 'serve')
+                                            ->get()
+                                            ->count(),
+                'products_sold' => Transaction::join('detail_transactions', 'transactions.id', '=', 'detail_transactions.transaction_id')
+                                            ->select(DetailTransaction::raw('SUM(qty) as total_qty'))
+                                            ->where('transactions.cashier_id', auth()->user()->cashier->id)
+                                            ->where('transactions.status', 'serve')
+                                            ->groupBy('transactions.cashier_id')
+                                            ->get(),
+                'all_earnings' => Transaction::join('detail_transactions', 'transactions.id', '=', 'detail_transactions.transaction_id')
+                                            ->select(DetailTransaction::raw('SUM(subtotal) as all_earnings'))
+                                            ->where('transactions.cashier_id', auth()->user()->cashier->id)
+                                            ->where('transactions.status', 'serve')
+                                            ->groupBy('transactions.cashier_id')
+                                            ->get()
+                                            
+            ]);
+        } elseif (auth()->user()->level === 'kitchen') {
+            return view('welcome');
+        }
     }
 
     /**

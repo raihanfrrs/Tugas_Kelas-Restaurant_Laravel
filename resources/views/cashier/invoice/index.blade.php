@@ -14,6 +14,7 @@
                     <th>Total Spend</th>
                     <th>Cashier</th>
                     <th>Date</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </thead>
             </table>

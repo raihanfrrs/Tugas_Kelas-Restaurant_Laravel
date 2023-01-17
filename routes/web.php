@@ -18,6 +18,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TempCartController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\DetailTransactionController;
+use App\Models\DetailTransaction;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,8 @@ Route::middleware('auth')->group(function () {
     Route::controller(SettingController::class)->group(function () {
         Route::get('settings', 'index');
         Route::post('settings/{id}/profile', 'profile_update');
+        Route::post('settings/check_password', 'check_password');
+        Route::post('settings/password', 'password_update');
     });
 
     Route::group(['middleware' => ['cekUserLogin:administrator']], function () {
@@ -98,8 +101,12 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::group(['middleware' => ['cekUserLogin:kitchen']], function () {
-        // Route::resource('transaction', TransactionController::class);
-        Route::resource('item', DetailTransactionController::class);
+        Route::controller(DetailTransactionController::class)->group(function () {
+            Route::get('order', 'index');
+            Route::get('order/read', 'read');
+            Route::post('order/status/{id}', 'update');
+            Route::get('order/details/{id}', 'show');
+        });
     });
 
     Route::get('/dataProduct', [ProductController::class, 'dataProduct'])->name('dataProduct');

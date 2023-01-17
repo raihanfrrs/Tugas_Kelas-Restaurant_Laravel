@@ -129,7 +129,13 @@
           </a>
           <ul id="ddmenu_4" class="collapse dropdown-nav">
             <li>
-              <a href="alerts.html"> Sales </a>
+              <a href="/reporting/sales"> Sales </a>
+            </li>
+            <li>
+              <a href="/reporting/performance"> Performance </a>
+            </li>
+            <li>
+              <a href="/reporting/tax"> Tax </a>
             </li>
           </ul>
         </li>
@@ -188,6 +194,7 @@
         <li class="nav-item nav-item-has-children">
           <a
             href="#0"
+            class="@if(request()->root() === url()->current()) collapse @else collapsed @endif"
             data-bs-toggle="collapse"
             data-bs-target="#ddmenu_1"
             aria-controls="ddmenu_1"
@@ -203,14 +210,14 @@
             </span>
             <span class="text">Dashboard</span>
           </a>
-          <ul id="ddmenu_1" class="collapse show dropdown-nav">
+          <ul id="ddmenu_1" class="collapse @if(request()->root() === url()->current()) show @endif dropdown-nav">
             <li>
-              <a href="index.html" class="active"> Main </a>
+              <a href="/" class="@if(request()->root() === url()->current()) active @endif"> Main </a>
             </li>
           </ul>
         </li>
-        <li class="nav-item">
-          <a href="invoice.html">
+        <li class="nav-item @if(Request::segment(1) === 'order') active @endif">
+          <a href="/order">
             <span class="icon">
               <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M1 22C1 22.54 1.45 23 2 23H15C15.56 23 16 22.54 16 22V21H1V22M8.5 9C4.75 9 1 11 1 15H16C16 11 12.25 9 8.5 9M3.62 13C4.73 11.45 7.09 11 8.5 11S12.27 11.45 13.38 13H3.62M1 17H16V19H1V17M18 5V1H16V5H11L11.23 7H20.79L19.39 21H18V23H19.72C20.56 23 21.25 22.35 21.35 21.53L23 5H18Z" />
