@@ -68,7 +68,22 @@ class LayoutController extends Controller
                                             
             ]);
         } elseif (auth()->user()->level === 'kitchen') {
-            return view('welcome');
+            return view('welcome')->with([
+                'task_completed' => Transaction::where('kitchen_id', auth()->user()->kitchen->id)
+                                                ->where('status', 'serve')
+                                                ->get()
+                                                ->count(),
+                'task_rejected' => Transaction::where('kitchen_id', auth()->user()->kitchen->id)
+                                                ->where('status', 'reject')
+                                                ->get()
+                                                ->count(),
+                'products_cooked' => Transaction::join('detail_transactions', 'transactions.id', '=', 'detail_transactions.transaction_id')
+                                                ->select(DetailTransaction::raw('SUM(qty) as products_cooked'))
+                                                ->where('transactions.status', 'cooking')
+                                                ->orWhere('transactions.status', 'serve')
+                                                ->where('transactions.kitchen_id', auth()->user()->kitchen->id)
+                                                ->get()
+            ]);
         }
     }
 

@@ -11,7 +11,17 @@ class ReportingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function sales_index()
+    {
+        //
+    }
+    
+    public function performance_index()
+    {
+        //
+    }
+    
+    public function tax_index()
     {
         //
     }

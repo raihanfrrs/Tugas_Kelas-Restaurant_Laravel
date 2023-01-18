@@ -25,7 +25,7 @@ class DetailTransactionController extends Controller
             'transaction' => Transaction::join('cashiers', 'transactions.cashier_id', '=', 'cashiers.id')
                                         ->join('customers', 'transactions.customer_id', '=', 'customers.id')
                                         ->join('detail_transactions', 'transactions.id', '=' , 'detail_transactions.transaction_id')
-                                        ->select('transactions.id', 'transactions.status','cashiers.name as cashier', 'cashiers.image as image', 'customers.name as customer', 'transactions.grand_total', DetailTransaction::raw('SUM(qty) as total_qty'), Transaction::raw('DATE_FORMAT(transactions.created_at, "%d/%m/%Y") as date'))
+                                        ->select('transactions.id', 'transactions.kitchen_id','transactions.status','cashiers.name as cashier', 'cashiers.image as image', 'customers.name as customer', 'transactions.grand_total', DetailTransaction::raw('SUM(qty) as total_qty'), Transaction::raw('DATE_FORMAT(transactions.created_at, "%d/%m/%Y") as date'))
                                         ->whereDate('transactions.created_at', Carbon::today())
                                         ->groupBy('transactions.id')
                                         ->orderBy('transactions.id', 'desc')

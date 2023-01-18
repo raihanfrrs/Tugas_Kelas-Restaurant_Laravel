@@ -106,14 +106,16 @@
             >
             <li class="m-2">
                 <a
-                href="#0"
+                href="/invoice/download/{{ $head[0]->id }}"
                 class="main-btn primary-btn-outline btn-hover"
                 >
                 Download Invoice
                 </a>
             </li>
             <li class="m-2">
-                <a href="#0" class="main-btn primary-btn btn-hover">
+                <a href="/invoice/print/{{ $head[0]->id }}" target="_blank" 
+                class="main-btn primary-btn btn-hover"
+                >
                 Print Invoice
                 </a>
             </li>

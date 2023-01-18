@@ -12,9 +12,9 @@
                     <th>Customer</th>
                     <th>Total Amount</th>
                     <th>Total Spend</th>
-                    <th>Cashier</th>
                     <th>Date</th>
                     <th>Status</th>
+                    <th>Kitchen</th>
                     <th>Action</th>
                 </thead>
             </table>

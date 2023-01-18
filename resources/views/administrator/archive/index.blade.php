@@ -4,7 +4,7 @@
 <div class="card-style">
     @if ($count == 0)
         <div class="alert alert-primary mb-0" role="alert">
-            <span class="fw-bold">Sorry,</span> You don't have one recycle data!
+            <span class="fw-bold">Sorry,</span> You don't have one archive data!
         </div>
     @endif
     

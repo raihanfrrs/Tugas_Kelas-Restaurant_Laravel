@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Cashier;
+use App\Models\Kitchen;
 use App\Models\Customer;
 use App\Models\DetailTransaction;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,11 @@ class Transaction extends Model
     public function cashier()
     {
         return $this->belongsTo(Cashier::class);
+    }
+
+    public function kitchen()
+    {
+        return $this->belongsTo(Kitchen::class);
     }
 
     public function customer()

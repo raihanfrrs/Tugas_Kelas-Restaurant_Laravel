@@ -21,6 +21,10 @@
             @endforeach
         </tbody>
     </table>
+    @if (!empty($details[0]->transaction->kitchen_id))
+        <hr>
+        <span class="fw-bold">Handled by :</span> <span class="text-end">{{ $details[0]->transaction->kitchen->name }}</span>
+    @endif
 </div>
 @if ($details[0]->transaction->status === 'order')
     <div class="modal-footer border-0">

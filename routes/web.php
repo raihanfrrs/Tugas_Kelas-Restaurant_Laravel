@@ -18,6 +18,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TempCartController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\DetailTransactionController;
+use App\Http\Controllers\ReportingController;
 use App\Models\DetailTransaction;
 
 /*
@@ -75,6 +76,12 @@ Route::middleware('auth')->group(function () {
             Route::put('service/tax/{tax}', 'tax_update');
             Route::post('service/tax/store', 'tax_store');
         });
+
+        Route::controller(ReportingController::class)->group(function () {
+            Route::get('reporting/sales', 'sales_index');
+            Route::get('reporting/performance', 'performance_index');
+            Route::get('reporting/tax', 'sales_tax');
+        });
     });
 
     Route::group(['middleware' => ['cekUserLogin:cashier']], function () {
@@ -83,6 +90,8 @@ Route::middleware('auth')->group(function () {
         Route::controller(InvoiceController::class)->group(function () {
             Route::get('invoice', 'index');
             Route::get('invoice/{transaction}/read', 'read');
+            Route::get('invoice/download/{transaction}', 'download');
+            Route::get('invoice/print/{transaction}', 'print');
         });
 
         Route::controller(TempCartController::class)->group(function () {

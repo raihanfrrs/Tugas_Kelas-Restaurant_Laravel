@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\DetailTransaction;
@@ -22,6 +23,36 @@ class InvoiceController extends Controller
     public function read(Transaction $transaction)
     {
         return view('cashier.invoice.invoice')->with([
+            'head' => Transaction::where('id', $transaction->id)->with('cashier')->get(),
+            'body' => DetailTransaction::where('transaction_id', $transaction->id)->with('product')->get(),
+            'subtotal' => DetailTransaction::join('products', 'detail_transactions.product_id', '=', 'products.id')
+                                            ->select(DetailTransaction::raw("SUM(price * qty) as grand_total"))
+                                            ->where('transaction_id', $transaction->id)
+                                            ->get()
+        ]);
+    }
+
+    public function download(Transaction $transaction)
+    {
+        $subtotal = DetailTransaction::join('products', 'detail_transactions.product_id', '=', 'products.id')
+                                    ->select(DetailTransaction::raw("SUM(price * qty) as grand_total, SUM(qty) as total_qty"))
+                                    ->where('transaction_id', $transaction->id)
+                                    ->get();
+
+        $fileName = $transaction->id."/".date('dmY', strtotime($transaction->created_at))."/".$subtotal[0]->total_qty;
+        $pdf = PDF::loadview('cashier.invoice.template-invoice', [
+            'head' => Transaction::where('id', $transaction->id)->with('cashier')->get(),
+            'body' => DetailTransaction::where('transaction_id', $transaction->id)->with('product')->get(),
+            'subtotal' => $subtotal,
+            'fileName' => $fileName
+        ]);
+
+        return $pdf->download($fileName.".pdf");
+    }
+
+    public function print(Transaction $transaction)
+    {
+        return view('cashier.invoice.print-receipt')->with([
             'head' => Transaction::where('id', $transaction->id)->with('cashier')->get(),
             'body' => DetailTransaction::where('transaction_id', $transaction->id)->with('product')->get(),
             'subtotal' => DetailTransaction::join('products', 'detail_transactions.product_id', '=', 'products.id')
@@ -98,10 +129,11 @@ class InvoiceController extends Controller
     }
 
     public function dataInvoice(){
-        return DataTables::of(Transaction::join('cashiers', 'transactions.cashier_id', '=', 'cashiers.id')
+        return DataTables::of(Transaction::join('kitchens', 'transactions.kitchen_id', '=', 'kitchens.id')
                                         ->join('customers', 'transactions.customer_id', '=', 'customers.id')
                                         ->join('detail_transactions', 'transactions.id', '=' , 'detail_transactions.transaction_id')
-                                        ->select('transactions.id','cashiers.name as cashier', 'customers.name as customer', 'transactions.status','transactions.grand_total', DetailTransaction::raw('SUM(qty) as total_amount'), Transaction::raw('DATE_FORMAT(transactions.created_at, "%d/%m/%Y") as date'))
+                                        ->select('transactions.id','kitchens.name as kitchen', 'customers.name as customer', 'transactions.status','transactions.grand_total', DetailTransaction::raw('SUM(qty) as total_amount'), Transaction::raw('DATE_FORMAT(transactions.created_at, "%d/%m/%Y") as date'))
+                                        ->where('transactions.cashier_id', auth()->user()->cashier->id)
                                         ->groupBy('transactions.id')
                                         ->get())
         ->addColumn('status', function ($model) {

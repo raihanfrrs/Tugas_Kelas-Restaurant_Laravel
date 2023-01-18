@@ -106,7 +106,8 @@ p {
   position: relative;
   border: 1px solid #e2e8f0;
   box-shadow: 0px 10px 20px rgba(200, 208, 216, 0.3);
-  border-radius: 10px; }
+  border-radius: 10px;
+ }
   @media (max-width: 767px) {
     .card-style {
       padding: 20px; } }
@@ -890,6 +891,10 @@ h6,
     .icon-card .icon.orange {
       background: rgba(242, 153, 74, 0.1);
       color: #f2994a; }
+    .icon-card .icon.danger {
+      background: rgb(221, 193, 198);
+      color: #DA4A4A;
+    }
     .icon-card .icon.opacity-100.purple {
       background: #9b51e0;
       color: #fff; }

@@ -76,14 +76,15 @@ $(document).ready( function () {
         ajax: '/dataInvoice',
         columns: [
             { data: 'id', name: 'id', class: 'lead-text text-center' },
-            { data: 'customer' , name: 'customr', class: 'text-muted text-capitalize text-center' },
+            { data: 'customer' , name: 'customer', class: 'text-muted text-capitalize text-center' },
             { data: 'total_amount', name: 'total_amount', class: 'text-muted text-capitalize text-center' },
             { data: 'grand_total', name: 'grand_total', class: 'text-muted text-capitalize text-center' },
-            { data: 'cashier', name: 'cashier', class: 'text-muted text-capitalize text-center' },
             { data: 'date', name: 'date', class: 'text-muted text-capitalize text-center' },
             { data: 'status', name: 'status', class: 'text-muted text-capitalize text-center' },
+            { data: 'kitchen', name: 'kitchen', class: 'text-muted text-capitalize text-center' },
             { data: 'action', name: 'action', class: 'text-muted text-capitalize text-center' }
-        ]
+        ],
+        order: [ [0, 'desc'] ]
     });
 
 

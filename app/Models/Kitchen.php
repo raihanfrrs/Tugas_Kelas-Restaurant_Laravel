@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Transaction;
+use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class Kitchen extends Model
 {
@@ -17,6 +18,11 @@ class Kitchen extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class);
     }
 
     public function getRouteKeyName() {
