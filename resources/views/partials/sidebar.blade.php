@@ -95,7 +95,7 @@
           </a>
           <ul id="ddmenu_3" class="collapse {{ request()->is('service/*') ? 'show' : '' }} dropdown-nav">
             <li>
-              <a href="/service/tax" class="@if(Request::segment(2) === 'tax') active @endif"> Tax</a>
+              <a href="/service/tax" class="@if(Request::segment(1) === 'service' && Request::segment(2) === 'tax') active @endif"> Tax</a>
             </li>
             <li>
               <a href="/service/discount" @if(Request::segment(2) === 'discount') active @endif> Discount</a>
@@ -105,7 +105,7 @@
         <li class="nav-item nav-item-has-children">
           <a
             href="#0"
-            class="collapsed"
+            class="{{ request()->is('reporting/*') ? 'collapse' : 'collapsed' }}"
             data-bs-toggle="collapse"
             data-bs-target="#ddmenu_4"
             aria-controls="ddmenu_4"
@@ -127,15 +127,15 @@
           </span>
             <span class="text">Report </span>
           </a>
-          <ul id="ddmenu_4" class="collapse dropdown-nav">
+          <ul id="ddmenu_4" class="collapse {{ request()->is('reporting/*') ? 'show' : '' }} dropdown-nav">
             <li>
-              <a href="/reporting/sales"> Sales </a>
+              <a href="/reporting/sales" class="@if(Request::segment(2) === 'sales') active @endif"> Sales </a>
             </li>
             <li>
-              <a href="/reporting/performance"> Performance </a>
+              <a href="/reporting/performance" class="@if(Request::segment(2) === 'performance') active @endif"> Performance </a>
             </li>
             <li>
-              <a href="/reporting/tax"> Tax </a>
+              <a href="/reporting/tax" class="@if(Request::segment(1) === 'reporting' && Request::segment(2) === 'tax') active @endif"> Tax </a>
             </li>
           </ul>
         </li>

@@ -3,7 +3,7 @@
 @section('section')
 <!-- ========== form-elements-wrapper start ========== -->
 <div class="form-elements-wrapper">
-    <form action="/kitchen/{{ $kitchen->id }}" method="post" enctype="multipart/form-data">
+    <form action="/kitchen/{{ $kitchen->slug }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('put')
     <div class="row">

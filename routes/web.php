@@ -80,19 +80,19 @@ Route::middleware('auth')->group(function () {
         Route::controller(ReportingController::class)->group(function () {
             Route::get('reporting/sales', 'sales_index');
             Route::get('reporting/performance', 'performance_index');
-            Route::get('reporting/tax', 'sales_tax');
+            Route::get('reporting/tax', 'tax_index');
+            Route::get('reporting/tax/details/{tax}', 'tax_show');
+        });
+
+        Route::controller(InvoiceController::class)->group(function () {
+            Route::get('invoice/{transaction}', 'read');
+            Route::get('invoice/{transaction}/download', 'download');
+            Route::get('invoice/{transaction}/print', 'print');
         });
     });
 
     Route::group(['middleware' => ['cekUserLogin:cashier']], function () {
         Route::resource('transaction', TransactionController::class);
-
-        Route::controller(InvoiceController::class)->group(function () {
-            Route::get('invoice', 'index');
-            Route::get('invoice/{transaction}/read', 'read');
-            Route::get('invoice/download/{transaction}', 'download');
-            Route::get('invoice/print/{transaction}', 'print');
-        });
 
         Route::controller(TempCartController::class)->group(function () {
             Route::get('cart', 'index');
@@ -106,6 +106,13 @@ Route::middleware('auth')->group(function () {
             Route::get('menu', 'index');
             Route::post('product/search', 'search');
             Route::get('product/search/results', 'results');
+        });
+
+        Route::controller(InvoiceController::class)->group(function () {
+            Route::get('invoice', 'index');
+            Route::get('invoice/{transaction}/read', 'read');
+            Route::get('invoice/download/{transaction}', 'download');
+            Route::get('invoice/print/{transaction}', 'print');
         });
     });
 
@@ -125,4 +132,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/dataKitchen', [KitchenController::class, 'dataKitchen'])->name('dataKitchen');
     Route::get('/dataTax', [ServiceController::class, 'dataTax'])->name('dataTax');
     Route::get('/dataInvoice', [InvoiceController::class, 'dataInvoice'])->name('dataInvoice');
+    Route::get('/dataSales', [ReportingController::class, 'dataSales'])->name('dataSales');
+    Route::get('/dataPerformanceCashier', [ReportingController::class, 'dataPerformanceCashier'])->name('dataPerformanceCashier');
+    Route::get('/dataPerformanceKitchen', [ReportingController::class, 'dataPerformanceKitchen'])->name('dataPerformanceKitchen');
+    Route::get('/dataSalesTax', [ReportingController::class, 'dataSalesTax'])->name('dataSalesTax');
+    Route::get('/dataDetailTax/{tax}', [ReportingController::class, 'dataDetailTax']);
 });

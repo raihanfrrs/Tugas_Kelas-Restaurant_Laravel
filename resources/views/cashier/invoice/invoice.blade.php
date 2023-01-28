@@ -106,14 +106,14 @@
             >
             <li class="m-2">
                 <a
-                href="/invoice/download/{{ $head[0]->id }}"
+                href="@if(auth()->user()->level === 'administrator') /invoice/{{ $head[0]->id }}/download @else /invoice/download/{{ $head[0]->id }} @endif"
                 class="main-btn primary-btn-outline btn-hover"
                 >
                 Download Invoice
                 </a>
             </li>
             <li class="m-2">
-                <a href="/invoice/print/{{ $head[0]->id }}" target="_blank" 
+                <a href="@if(auth()->user()->level === 'administrator') /invoice/{{ $head[0]->id }}/print @else /invoice/print/{{ $head[0]->id }} @endif" target="_blank" 
                 class="main-btn primary-btn btn-hover"
                 >
                 Print Invoice

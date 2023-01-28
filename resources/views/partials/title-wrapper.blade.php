@@ -6,7 +6,7 @@
             @if (count(Request::segments()) == 0)
                 Dashboard
             @else 
-                {{ Str::ucfirst(Request::segment(1)) }}
+                {{ isset($title) ? $title : Str::ucfirst(Request::segment(1)) }}
             @endif
         </h2>
         </div>

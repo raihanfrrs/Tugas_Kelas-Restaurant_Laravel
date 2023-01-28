@@ -14,7 +14,7 @@
             <form action="/cart/{{ $item->slug }}/store" method="post">
               @csrf
               <div class="card-style-2 mb-30">
-                <div class="card-image" style="max-height: 250px; overflow: hidden;">
+                <div class="card-image" style="max-height: 225px; overflow: hidden;">
                   @if ($item->image)
                   <img src="{{ asset('storage/'. $item->image) }}" alt="product image" class="img-fluid"/>
                   @else

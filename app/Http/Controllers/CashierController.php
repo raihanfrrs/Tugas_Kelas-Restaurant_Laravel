@@ -121,6 +121,10 @@ class CashierController extends Controller
             $cashiers['email'] = 'required|min:5|max:255|unique:cashiers|email:rfc,dns';
         }
 
+        if ($request->status == 'non-active') {
+            session(['recycle' => $request->session()->get('recycle')+1]);
+        }
+
         $validateData = $request->validate($cashiers);
 
         if ($request->file('image')) {

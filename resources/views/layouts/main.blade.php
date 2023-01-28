@@ -46,6 +46,16 @@
     <script src="{{ asset('/') }}assets/vendor/bootstrap-5.2.2-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
     <script src="{{ asset('/') }}assets/vendor/jquery/jquery-3.6.1.min.js" type="text/javascript"></script>
     <script src="{{ asset('/') }}assets/vendor/datatables/js/datatables.min.js" type="text/javascript"></script>
+    <script src="{{ asset('/') }}assets/vendor/datatables/js/dataTables.buttons.min.js" type="text/javascript"></script>
+    <script src="{{ asset('/') }}assets/vendor/datatables/js/jszip.min.js" type="text/javascript"></script>
+    <script src="{{ asset('/') }}assets/vendor/datatables/js/pdfmake.min.js" type="text/javascript"></script>
+    <script src="{{ asset('/') }}assets/vendor/datatables/js/vfs_fonts.js" type="text/javascript"></script>
+    <script src="{{ asset('/') }}assets/vendor/datatables/js/buttons.html5.min.js" type="text/javascript"></script>
+    <script src="{{ asset('/') }}assets/vendor/datatables/js/buttons.print.min.js" type="text/javascript"></script>
+    <script src="{{ asset('/') }}assets/vendor/highcharts/js/highcharts.js" type="text/javascript"></script>
+    <script src="{{ asset('/') }}assets/vendor/highcharts/js/accessibility.js" type="text/javascript"></script>
+    <script src="{{ asset('/') }}assets/vendor/highcharts/js/export-data.js" type="text/javascript"></script>
+    <script src="{{ asset('/') }}assets/vendor/highcharts/js/exporting.js" type="text/javascript"></script>
 
     <!-- ========== MAIN JS ========= -->
     <script src="{{ asset('/') }}assets/js/main.js" type="text/javascript"></script>

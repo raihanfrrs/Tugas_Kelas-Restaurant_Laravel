@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Cashier;
 use App\Models\Kitchen;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Customer;
-use App\Models\DetailTransaction;
 use App\Models\TempCart;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\DetailTransaction;
 
 class LayoutController extends Controller
 {
@@ -45,7 +46,15 @@ class LayoutController extends Controller
                                                 ->where('transactions.status', 'serve')
                                                 ->count(),
                 'total_income' => Transaction::where('status', 'serve')->sum('grand_total'),
-                'total_orders' => Transaction::where('status', 'serve')->count()
+                'total_orders' => Transaction::where('status', 'serve')->count(),
+                'income' => Transaction::select(Transaction::raw('SUM(grand_total) as income'))
+                                        ->where('status', 'serve')
+                                        ->groupBy(Transaction::raw('MONTH(created_at)'))
+                                        ->pluck('income'),
+                'visitors' => Transaction::select(Transaction::raw('COUNT(*) as visitors'))
+                                        ->where('status', 'serve')
+                                        ->groupBy(Transaction::raw('MONTH(created_at)'))
+                                        ->pluck('visitors')
             ]);
         } elseif (auth()->user()->level === 'cashier') {
             return view('welcome')->with([

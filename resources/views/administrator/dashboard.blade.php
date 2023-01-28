@@ -54,3 +54,115 @@
     </div>
     <!-- End Col -->
 </div>
+<div class="row">
+    <div class="col-xl-6 col-lg-6 col-sm-6">
+        <div class="card-style mb-30 p-3">
+            <div id="monthly-income"></div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-sm-6">
+        <div class="card-style mb-30 p-3">
+            <div id="customer"></div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function (){
+            var monthly_income = @php echo json_encode($income) @endphp;
+            Highcharts.chart('monthly-income', {
+                title : {
+                    text : 'Monthly Sales/Revenue'
+                },
+                xAxis : {
+                    categories: [
+                    'Jan',
+                    'Feb',
+                    'Mar',
+                    'Apr',
+                    'May',
+                    'Jun',
+                    'Jul',
+                    'Aug',
+                    'Sep',
+                    'Oct',
+                    'Nov',
+                    'Dec'
+                    ],
+                },
+                yAxis : {
+                    title : {
+                        text : 'Monthly Sales/Revenue'
+                    }
+                },
+                plotOptions : {
+                    series : {
+                        allowPointSelect : true
+                    }
+                },
+                series : [
+                    {
+                        name : 'Nominal',
+                        data : [monthly_income]
+                    }
+                ]
+            })
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var moonthly_visitors = @php echo json_encode($visitors) @endphp;
+            Highcharts.chart('customer', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Monthly Visitors'
+                },
+                xAxis: {
+                    categories: [
+                    'Jan',
+                    'Feb',
+                    'Mar',
+                    'Apr',
+                    'May',
+                    'Jun',
+                    'Jul',
+                    'Aug',
+                    'Sep',
+                    'Oct',
+                    'Nov',
+                    'Dec'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Number of Visitors'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"> <b>{point.y}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Visitor',
+                    data: [moonthly_visitors]
+                }]
+            });
+        })
+    </script>
+@endpush

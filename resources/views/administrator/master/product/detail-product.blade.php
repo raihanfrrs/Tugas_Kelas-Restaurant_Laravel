@@ -7,7 +7,7 @@
             <div class="row g-0">
               <div class="col-md-4">
                 @if ($product->image)
-                    <img src="{{ asset('storage/'.$product->image) }}" class="img-fluid rounded-start w-100 h-100" alt="product image">
+                    <img src="{{ asset('storage/'.$product->image) }}" class="img-fluid rounded-start w-100 h-100" alt="product image" style="max-height: 400px; overflow:hidden;">
                 @else
                     <img src="https://source.unsplash.com/800x400?food" class="img-fluid rounded-start w-100 h-100" alt="product image">
                 @endif

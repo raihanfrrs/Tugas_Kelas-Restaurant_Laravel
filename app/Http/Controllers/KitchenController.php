@@ -121,6 +121,10 @@ class KitchenController extends Controller
             $kitchens['email'] = 'required|min:5|max:255|unique:kitchens|email:rfc,dns';
         }
 
+        if ($request->status == 'non-active') {
+            session(['recycle' => $request->session()->get('recycle')+1]);
+        }
+
         $validateData = $request->validate($kitchens);
 
         if ($request->file('image')) {

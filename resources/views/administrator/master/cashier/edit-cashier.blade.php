@@ -3,7 +3,7 @@
 @section('section')
 <!-- ========== form-elements-wrapper start ========== -->
 <div class="form-elements-wrapper">
-    <form action="/cashier/{{ $cashier->id }}" method="post" enctype="multipart/form-data">
+    <form action="/cashier/{{ $cashier->slug }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('put')
     <div class="row">

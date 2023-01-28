@@ -2435,6 +2435,17 @@ h6,
   text-align: center;
 }
 
+.dt-button {
+  background: #4a6cf7;
+  color: #fff;
+  padding: 10px 25px;
+  font-weight: 400;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 20px;
+  text-transform: capitalize;
+}
+
 /* ========== DEFAULT CSS ======== */
 /* ======= Margin Top ======= */
 .mt-5 {
